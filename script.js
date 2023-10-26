@@ -2,10 +2,10 @@ const conversation = [];
 
 function askQuestion() {
     const inputField = document.getElementById('question');
-    const question = inputField.value;
+    const question = inputField.value.trim();
     
     // Check if the input field is not empty
-    if (question.trim() === '') {
+    if (question === '') {
         return;
     }
 
@@ -18,8 +18,8 @@ function askQuestion() {
         .then(data => {
             const chatBody = document.getElementById('chat-body');
             const userMessage = `<div class="message user-message">${question}</div>`;
-            const botMessage = `<div class="message bot-message">${JSON.stringify(data)}</div>`;
-            conversation.push({ user: question, bot: data });
+            const botMessage = `<div class="message bot-message">${data.content}</div>`; // Extracting the response text from the API data
+            conversation.push({ user: question, bot: data.content }); // Storing only the response text in the conversation history
             chatBody.innerHTML += userMessage + botMessage;
             chatBody.scrollTop = chatBody.scrollHeight; // Scroll to the bottom of the chat
         })
@@ -33,7 +33,7 @@ function displayConversation() {
     chatBody.innerHTML = '';
     conversation.forEach(item => {
         const userMessage = `<div class="message user-message">${item.user}</div>`;
-        const botMessage = `<div class="message bot-message">${JSON.stringify(item.bot)}</div>`;
+        const botMessage = `<div class="message bot-message">${item.bot}</div>`;
         chatBody.innerHTML += userMessage + botMessage;
     });
     chatBody.scrollTop = chatBody.scrollHeight;
