@@ -1,7 +1,18 @@
 const conversation = [];
 
 function askQuestion() {
-    const question = document.getElementById('question').value;
+    const inputField = document.getElementById('question');
+    const question = inputField.value;
+    
+    // Check if the input field is not empty
+    if (question.trim() === '') {
+        return;
+    }
+
+    // Clear the input field
+    inputField.value = '';
+
+    // Send the question to the API
     fetch(`https://hercai.onrender.com/v2/hercai?question="${question}"`)
         .then(response => response.json())
         .then(data => {
